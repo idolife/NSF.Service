@@ -1,0 +1,17 @@
+{
+  "Version" : "1.0",
+  "Reference": [
+  	"System.dll",
+    "System.Data.dll",
+    "System.Core.dll",
+    "Mysql.Data.dll",
+    "NSF.Core.dll",
+    "NSF.Share.dll",
+    "NSF.Framework.dll",
+    "NSF.Interface.dll",
+    "Newtonsoft.Json.dll",
+  ],
+  "Param" : {
+    "ConnectionString":"server=localhost;user=root;database=logger;password=;",
+    },
+}

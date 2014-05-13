@@ -1,0 +1,13 @@
+{
+  "Name": "NSF.Main",
+  "Script": "NSF.Main",
+  "Reference": [
+	"System.dll",
+  	"NSF.Core.dll",
+    "NSF.Share.dll",
+	"NSF.Framework.dll",
+    "NSF.Interface.dll",
+    "Newtonsoft.Json.dll",
+  ],
+  "Version" : "1.0"
+}

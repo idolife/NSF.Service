@@ -1,0 +1,17 @@
+{
+  "Version" : "1.0",
+  "Reference": [
+  	"System.dll",
+    "System.Core.dll",
+    "NSF.Core.dll",
+    "NSF.Share.dll",
+    "NSF.Framework.dll",
+    "NSF.Interface.dll",
+    "Newtonsoft.Json.dll",
+  ],
+  "Param" : {
+  	"Prefixes" : ["http://+:8090/billing/"],
+  	"Services" : ["NSF.Http.Billing", "NSF.Http.Test"],
+    "RpcProxies" : [{"Addr":"127.0.0.1", "Port":9090}],
+  },
+}

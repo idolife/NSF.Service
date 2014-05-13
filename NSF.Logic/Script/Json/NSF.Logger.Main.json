@@ -1,0 +1,16 @@
+{
+  "Version" : "1.0",
+  "Reference": [
+  	"System.dll",
+    "System.Core.dll",
+    "NSF.Core.dll",
+    "NSF.Share.dll",
+    "NSF.Framework.dll",
+    "NSF.Interface.dll",
+    "Newtonsoft.Json.dll",
+  ],
+  "Param" : {
+    "UDP" : 7070,
+  	"Services" : ["NSF.Logger.DB"],
+  },
+}
