@@ -69,6 +69,7 @@ namespace NSF.Share
 
         /// <summary>
         /// DateTime时间格式转换为Unix的时间戳。
+        /// （时间调整到UTC0）
         /// </summary>		
         public static int DateTimeToTimestamp(DateTime dtSrc)
         {
@@ -80,6 +81,7 @@ namespace NSF.Share
 
         /// <summary>
         /// Unix的时间戳到DateTime时间格式的转换。
+        /// （时间调整到UTC0）
         /// </summary>
         public static DateTime TimestampToDateTime(int totalSeconds)
         {

@@ -16,6 +16,4 @@ namespace NSF.Interface
         /// <returns></returns>
         Task ExecuteAsync(object rtmPrama, object confParam);
     }
-
-
 }

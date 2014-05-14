@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Script\Code\NSF.Game.Main.cs" />
     <Compile Include="Script\Code\NSF.Http.Billing.cs" />
     <Compile Include="Script\Code\NSF.Http.Test.cs" />
     <Compile Include="Script\Code\NSF.Http.Main.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Script\Code\NSF.Logger.Main.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Script\Json\NSF.Game.Main.json" />
     <None Include="Script\Json\NSF.Http.Billing.json" />
     <None Include="Script\Json\NSF.Http.Test.json" />
     <None Include="Script\Json\NSF.Http.Main.json" />

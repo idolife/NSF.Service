@@ -22,7 +22,7 @@ namespace NSF.Framework.Rpc
             _RpcImpl = impl;
             _Listener = new TcpListener(local);
             _Listener.Start();
-            Log.Info("RPC server open success on {0}.", local);
+            Log.Info("[RPC][SERVER][INIT], RPC server open success on {0}.", local);
 
 
             Task.Run(async () => await Svc());
@@ -39,13 +39,13 @@ namespace NSF.Framework.Rpc
 
                     /// 创建连接处理者
                     RpcClient handler = new RpcClient(client, _RpcImpl);
-                    Log.Debug("RPC client open on {0}.", client.Client.RemoteEndPoint);
+                    Log.Debug("[RPC][SERVER][SVC], RPC client open on {0}.", client.Client.RemoteEndPoint);
                 }
                 catch (SocketException e)
                 {
                     /// 当处理接收过程中排队的连接断开后会发生异常
                     /// 此异常不应该导致侦听服务中断服务
-                    Log.Debug("RpcServer exception: {0}", e);
+                    Log.Debug("[RPC][SERVER][SVC], Exception: {0}", e);
                 }
             }
         }
