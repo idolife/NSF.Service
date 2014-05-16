@@ -6,7 +6,7 @@ namespace NSF.Framework.Base
     /// <summary>
     /// 字节数组缓存管理类。
     /// </summary>
-    class DataBlock
+    public class DataBlock
     {
         Byte[] _Cache;
         Int32 _RdPtr;

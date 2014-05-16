@@ -72,6 +72,7 @@
     <Compile Include="Svc\HttpAcceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Svc\TcpAcceptor.cs" />
+    <Compile Include="Svc\TcpHandler.cs" />
     <Compile Include="Svc\UdpAcceptor.cs" />
   </ItemGroup>
   <ItemGroup>

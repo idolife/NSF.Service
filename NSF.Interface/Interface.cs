@@ -16,4 +16,9 @@ namespace NSF.Interface
         /// <returns></returns>
         Task ExecuteAsync(object rtmPrama, object confParam);
     }
+
+    public  interface IModule
+    {
+        String Name { get; }
+    }
 }

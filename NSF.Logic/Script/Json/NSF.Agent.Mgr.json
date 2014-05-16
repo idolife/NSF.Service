@@ -10,8 +10,6 @@
     "Newtonsoft.Json.dll",
   ],
   "Param" : {
-    "TcpService" : [{"Port" : 9091, "Svc" : ["NSF.Agent.Mgr"]}],
-    "RpcService" : [{"Port" : 8081, "Impl" : "NSF.Game.Impl.Rpc"}],
-    "DbmService" : [],
+    "HandlerScript" : "NSF.Game.Handler",
   },
 }
