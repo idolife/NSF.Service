@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 using NSF.Share;
 using NSF.Core;
@@ -57,6 +57,7 @@ namespace NSF.Game.Main
                     String rImpl = r.GetValue("Impl").ToObject<String>();
                     if (!rImpl.EndsWith(".dll"))
                         rImpl += ".dll";
+                    rImpl = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, rImpl);
                     RpcInterface rInt = null;
                     Assembly rAss = Assembly.LoadFile(rImpl);
                     foreach(var i in rAss.ExportedTypes)
