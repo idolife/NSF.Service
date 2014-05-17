@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using NSF.Interface;
 
 namespace NSF.Framework.Base
 {
     /// <summary>
     /// 字节数组缓存管理类。
     /// </summary>
-    public class DataBlock
+    public class DataBlock : IDataBlock
     {
         Byte[] _Cache;
         Int32 _RdPtr;
@@ -132,5 +133,4 @@ namespace NSF.Framework.Base
             _WrPtr = 0;
         }
     }    
-
 }

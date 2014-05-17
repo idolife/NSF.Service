@@ -76,6 +76,10 @@
     <Compile Include="Svc\UdpAcceptor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NSF.Interface\NSF.Interface.csproj">
+      <Project>{d0cd99e6-5407-463a-ac92-552558b328f5}</Project>
+      <Name>NSF.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSF.Share\NSF.Share.csproj">
       <Project>{20193901-2899-4443-91e7-c83c2d28e302}</Project>
       <Name>NSF.Share</Name>

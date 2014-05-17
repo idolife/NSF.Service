@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NSF.Interface
 {
+    /// <summary>
+    /// 普通脚本接口。
+    /// </summary>
     public interface IScript
     {
         /// <summary>
@@ -17,8 +20,61 @@ namespace NSF.Interface
         Task ExecuteAsync(object rtmPrama, object confParam);
     }
 
+    /// <summary>
+    /// 普通模块接口。
+    /// </summary>
     public  interface IModule
     {
         String Name { get; }
+    }
+
+    public interface IDataBlock
+    {
+        Int32 ReadPosition { get; }
+        Int32 WritePosition { get; }
+        Int32 ReadOffset(Int32 offset);
+        Int32 WriteOffset(Int32 offset);
+        Int32 Total { get; }
+        Int32 Length { get; }
+        Int32 Space { get; }
+        Byte[] Buffer { get; }
+        void Crunch();
+        void Reset();
+    }
+
+    /// <summary>
+    /// TCP连接逻辑实现接口。
+    /// </summary>
+    public interface IClientImpl
+    {
+        /// <summary>
+        /// 连接就绪事件。
+        /// </summary>
+        Task OnReady(IClientSvc cli);
+
+        /// <summary>
+        /// 数据包到达事件。
+        /// </summary>
+        Task OnData(IDataBlock chunk);
+
+        /// <summary>
+        /// 发生异常事件。
+        /// </summary>
+        Task OnException();
+    }
+
+    /// <summary>
+    /// TCP连接功能提供接口。
+    /// </summary>
+    public interface IClientSvc
+    {
+        /// <summary>
+        /// 外发数据。
+        /// </summary>
+        Task SendData(Byte[] buff, Int32 offset, Int32 length);
+        /// <summary>
+        /// 关闭连接。
+        /// </summary>
+        void Close();
     }
 }

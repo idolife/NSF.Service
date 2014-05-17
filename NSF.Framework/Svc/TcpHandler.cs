@@ -75,7 +75,7 @@ namespace NSF.Framework.Svc
             Log.Debug("[TcpHandler][OnRead], Recv data = {0}.", recvLen);
 
             /// 创建逻辑处理任务
-            Task<bool> procTask = OnData(chunk);
+            Task procTask = OnData(chunk);
             Put(procTask, chunk, OnFinish);
 
             /// 什么也不要做
@@ -85,10 +85,10 @@ namespace NSF.Framework.Svc
         /// <summary>
         /// 处理数据包到达逻辑。
         /// </summary>
-        protected virtual Task<bool> OnData(DataBlock chunk)
+        protected virtual Task OnData(DataBlock chunk)
         {
             return
-                Task.FromResult(true);
+                Task.FromResult(0);
         }
 
         /// <summary>
@@ -98,7 +98,6 @@ namespace NSF.Framework.Svc
         {
             /// 还原
             DataBlock chunk = finishData as DataBlock;
-            Task<bool> procTask = finishTask as Task<bool>;
 
             ///  发起下一个读请求
             chunk.Crunch();
