@@ -82,6 +82,8 @@ namespace NSF.Game.Logic
             JsonLoginReq jsonReq = jsonRaw as JsonLoginReq;
             Log.Debug("[Agent][HandleLoginReq], [{0}|{1}].", jsonReq.UserId, jsonReq.Token);
 
+            _State = ClientState.READY;
+
             JsonLoginAck jsonAck = new JsonLoginAck { Status = 1, Session = jsonReq.Token };
             await SendMessage(ProtocolCommand.MSG_LOGIN_ACK, jsonAck);
         }
