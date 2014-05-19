@@ -35,31 +35,31 @@ namespace NSF.Core
         }
 
         /// <summary>
-        /// 管理指定模块。
+        /// 加入指定模块。
         /// </summary>
         public bool Join(IModule mod)
         {
             if (!_Repo.TryAdd(mod.Name, mod))
             {
-                Log.Error("[MgrModule][Lock], [Name:{0}], Already has such module.", mod.Name);
+                Log.Error("[MgrModule][Join], [Name:{0}], Already has such module.", mod.Name);
                 return false;
             }
-            Log.Debug("[MgrModule][Lock], [Name:{0}], Module has managered.", mod.Name);
+            Log.Debug("[MgrModule][Join], [Name:{0}], Module has managered.", mod.Name);
             return true;
         }
 
         /// <summary>
-        /// 移除管理指定模块。
+        /// 移除指定模块。
         /// </summary>
         public bool Leave(String name)
         {
             IModule mod;
             if (!_Repo.TryRemove(name, out mod))
             {
-                Log.Error("[MgrModule][Free], [Name:{0}], Module does not exist.", name);
+                Log.Error("[MgrModule][Leave], [Name:{0}], Module does not exist.", name);
                 return false;
             }
-            Log.Debug("[MgrModule][Free], [Name:{0}], Module has removed.", name);
+            Log.Debug("[MgrModule][Leave], [Name:{0}], Module has removed.", name);
             return false;
         }
 

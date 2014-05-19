@@ -69,6 +69,10 @@ namespace NSF.Interface
     public interface IClientSvc
     {
         /// <summary>
+        /// 远端IP地址。
+        /// </summary>
+        String RemoteIP { get; }
+        /// <summary>
         /// 外发数据。
         /// </summary>
         Task SendData(Byte[] buff, Int32 offset, Int32 length);
@@ -77,4 +81,36 @@ namespace NSF.Interface
         /// </summary>
         void Close();
     }
+
+    ///// <summary>
+    ///// 协议提供者接口。
+    ///// </summary>
+    //public interface IProtocolProvider
+    //{
+    //    /// <summary>
+    //    /// 根据消息的自定义ID获得消息的运行时类型。
+    //    /// </summary>
+    //    /// <param name="msgId">消息ID。</param>
+    //    /// <returns>消息的运行时类型。</returns>
+    //    Type GetTypeById(Int32 msgId);
+    //    /// <summary>
+    //    /// 根据消息的运行时获得消息的自定义ID。
+    //    /// </summary>
+    //    /// <param name="msgType">消息的运行时类型。</param>
+    //    /// <returns>消息的自定义ID。</returns>
+    //    Int32 GetIdByType(Type msgType);
+    //    /// <summary>
+    //    /// 解包处理。
+    //    /// </summary>
+    //    /// <param name="chunk">数据包对象。</param>
+    //    /// <returns>解包成功返回具体数据对象，解包异常抛出异常，数据不完整返回null。</returns>
+    //    Object DecodeMessage(IDataBlock chunk);
+    //    /// <summary>
+    //    /// 打包处理。
+    //    /// </summary>
+    //    /// <param name="msgId">消息对象编号。</param>
+    //    /// <param name="msgObj">包含数据的消息对象。</param>
+    //    /// <returns>成功返回数据流对象，打包异常抛出异常，其他返回null。</returns>
+    //    Byte[] EncodeMessage(Int32 msgId, Object msgObj);
+    //}
 }

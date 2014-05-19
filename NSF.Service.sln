@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSF.Core", "NSF.Core\NSF.Core.csproj", "{0D443174-A9A9-403F-BA47-6DD9D7203465}"
 EndProject
@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSF.Share", "NSF.Share\NSF.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSF.Framework", "NSF.Framework\NSF.Framework.csproj", "{341A10B6-43ED-4C0E-9F5E-FFF6EE8CFF4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSF.Game.Impl", "NSF.Game.Impl\NSF.Game.Impl.csproj", "{0390E4DA-9C3B-4D6F-BEF3-A58A6A31CCFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSF.Game.Logic", "NSF.Game.Impl\NSF.Game.Logic.csproj", "{0390E4DA-9C3B-4D6F-BEF3-A58A6A31CCFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

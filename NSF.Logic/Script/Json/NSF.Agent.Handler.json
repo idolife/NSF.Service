@@ -3,13 +3,16 @@
   "Reference": [
   	"System.dll",
     "System.Core.dll",
+    "System.Net.dll",
     "NSF.Core.dll",
     "NSF.Share.dll",
     "NSF.Framework.dll",
     "NSF.Interface.dll",
     "Newtonsoft.Json.dll",
   ],
-  "Param" : {
-    "HandlerScript" : "NSF.Agent.Handler",
+  "Param" : { 
+    "ReadBufferSize" : 4096,
+    "WeadBufferSize" : 4096,
+    "ProtocolImpl" : "NSF.Game.Impl",
   },
 }

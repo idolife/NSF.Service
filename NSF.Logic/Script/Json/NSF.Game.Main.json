@@ -11,7 +11,7 @@
   ],
   "Param" : {
     "TcpService" : [{"Port" : 9091, "Svc" : ["NSF.Agent.Mgr"]}],
-    "RpcService" : [{"Port" : 8081, "Impl" : "NSF.Game.Impl.Rpc"}],
+    "RpcService" : [{"Port" : 8081, "Impl" : "NSF.Game.Logic"}],
     "DbmService" : [],
   },
 }
