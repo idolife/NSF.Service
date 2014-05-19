@@ -8,11 +8,12 @@
     "NSF.Share.dll",
     "NSF.Framework.dll",
     "NSF.Interface.dll",
-    "Newtonsoft.Json.dll",
+    "NSF.Game.Logic.dll",
+    "Newtonsoft.Json.dll"
   ],
   "Param" : { 
     "ReadBufferSize" : 4096,
     "WeadBufferSize" : 4096,
-    "ProtocolImpl" : "NSF.Game.Impl",
-  },
+    "ProtocolImpl" : "NSF.Game.Impl"
+  }
 }

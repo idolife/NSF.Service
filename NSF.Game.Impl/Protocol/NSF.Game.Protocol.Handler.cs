@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NSF.Core;
 using NSF.Share;
 using NSF.Interface;
+using NSF.Game.Logic;
 
 namespace NSF.Game.Logic
 {
@@ -28,20 +30,26 @@ namespace NSF.Game.Logic
         /// 关联的连接对象。
         /// </summary>
         IClientSvc _Client;
+        ProtocolLogic _Logic;
+
+        /// <summary>
+        /// 默认构造函数。
+        /// </summary>
+        public ProtocolHandler()
+        {
+            /// 创建唯一ID
+            _UUID = Interlocked.Increment(ref _UUID_SEED);
+        }
 
         /// <summary>
         /// 处理连接就绪。
         /// </summary>
         public Task OnReady(IClientSvc cli)
         {
+            Log.Debug("[Agent][ProtocolHandler][OnReady], [UUID:{0, 8}, Remote:{1}]", _UUID, cli.RemoteIP);
             /// 保存关联的连接。
             _Client = cli;
-            /// 创建唯一ID
-            _UUID = Interlocked.Increment(ref _UUID_SEED);
-
-            ///
-            Log.Debug("[Agent][ProtocolHandler][OnReady], [UUID:{0, 8}, Remote:{1}]", _UUID, _Client.RemoteIP);
-            
+            _Logic = new ProtocolLogic(_Client);
             ///
             return null;
         }
@@ -55,13 +63,13 @@ namespace NSF.Game.Logic
             while (true)
             {
                 /// 解包
-                Object msg = ProtocollProvide.DecodeMessage(chunk);
+                GameReq msgReq = ProtocollProvide.DecodeMessage(chunk);
                 /// 数据包不完整
-                if (msg == null)
+                if (msgReq == null)
                     break;
 
                 /// 处理协议消息
-                await OnMessage(msg);
+                await OnMessage(msgReq);
             }
         }
 
@@ -79,9 +87,12 @@ namespace NSF.Game.Logic
         /// <summary>
         /// 处理消息协议。
         /// </summary>
-        protected Task OnMessage(Object msg)
+        protected Task OnMessage(GameReq req)
         {
-            throw new NotImplementedException("OnMessage");
+            Log.Debug("[Agent][ProtocolHandler][OnMessage], [Json:{0}].", req.Json);
+
+            /// 反序列化Json消息
+            JsonHeader jsonHead = JsonConvert.DeserializeObject<JsonHeader>(req.Json);
         }
     }
 }

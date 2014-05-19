@@ -13,15 +13,6 @@ namespace NSF.Game.Logic
     public static class ProtocollProvide
     {
         public static Int32 MAX_PACKAGE_SIZE = 1024 * 8;
-        //public static Type GetTypeById(Int32 msgId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public static Int32 GetIdByType(Type msgType)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// 协议解包。

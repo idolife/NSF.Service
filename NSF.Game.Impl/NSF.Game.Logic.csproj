@@ -65,8 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\Json\NSF.Game.Protocol.Json.cs" />
+    <Compile Include="Protocol\NSF.Game.Protocol.Command.cs" />
     <Compile Include="Protocol\NSF.Game.Protocol.Definition.cs" />
     <Compile Include="Protocol\NSF.Game.Protocol.Handler.cs" />
+    <Compile Include="Protocol\NSF.Game.Protocol.Logic.cs" />
     <Compile Include="Protocol\NSF.Game.Protocol.Provider.cs" />
     <Compile Include="Rpc\NSF.Game.Rpc.Impl.cs" />
     <Compile Include="Rpc\NSF.Game.Rpc.Protocol.cs" />
