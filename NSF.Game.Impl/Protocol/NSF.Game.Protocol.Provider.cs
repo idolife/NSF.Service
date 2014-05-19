@@ -13,22 +13,28 @@ namespace NSF.Game.Logic
     /// </summary>
     public static class ProtocollProvide
     {
-        public static Type GetTypeById(Int32 msgId)
+        //public static Type GetTypeById(Int32 msgId)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public static Int32 GetIdByType(Type msgType)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        /// <summary>
+        /// 协议解包。
+        /// </summary>
+        public static GameReq DecodeMessage(IDataBlock chunk)
         {
             throw new NotImplementedException();
         }
 
-        public static Int32 GetIdByType(Type msgType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Object DecodeMessage(IDataBlock chunk)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Byte[] EncodeMessage(Int32 msgId, Object msgObj)
+        /// <summary>
+        /// 协议打包。
+        /// </summary>
+        public static Byte[] EncodeMessage(Object msgObj)
         {
             throw new NotImplementedException();
         }
