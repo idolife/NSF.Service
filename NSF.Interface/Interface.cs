@@ -75,7 +75,7 @@ namespace NSF.Interface
         /// <summary>
         /// 身份ID。
         /// </summary>
-        UInt64 UUID { get; }
+        Int64 UUID { get; }
         /// <summary>
         /// 远端IP地址。
         /// </summary>

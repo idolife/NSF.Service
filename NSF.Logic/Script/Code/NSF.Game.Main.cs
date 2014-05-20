@@ -24,7 +24,7 @@ namespace NSF.Game.Main
         /// </summary>
         public async Task ExecuteAsync(Object ___, Object confParam)
         {
-            Log.Debug("[Script][Game][Execute], Param={0}.", confParam);
+            Log.Debug("[Script][GameServer][Execute], Param={0}.", confParam);
 
             try
             {
@@ -77,7 +77,7 @@ namespace NSF.Game.Main
             }
             catch(Exception e)
             {
-                Log.Error("[Script][Game][Execute], {0}.", e);
+                Log.Error("[Script][GameServer][Execute], {0}.", e);
             }
         }
     }

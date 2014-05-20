@@ -3,17 +3,15 @@
   "Reference": [
   	"System.dll",
     "System.Core.dll",
-    "System.Net.dll",
     "NSF.Core.dll",
     "NSF.Share.dll",
     "NSF.Framework.dll",
     "NSF.Interface.dll",
-    "NSF.Game.Logic.dll",
     "Newtonsoft.Json.dll"
   ],
-  "Param" : { 
-    "ReadBufferSize" : 4096,
-    "WeadBufferSize" : 4096,
-    "ProtocolImpl" : "NSF.Game.Logic"
+  "Param" : {
+    "Robot" : [
+        {"Remote" : "127.0.0.1:9091", "Svc" : "NSF.Robot.Idle", "Count" : 1, "Concurrent" : 1 }
+    ]
   }
 }

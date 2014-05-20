@@ -63,12 +63,12 @@ namespace NSF.Game.Logic
                         jParam.GetValue("ReadBufferSize").ToObject<Int32>();
                 }
 
-                /// 触发连接就绪事件
-                await _Impl.OnReady(this);
-
                 /// 初始化底层数据
                 /// （使本对象处于运行状态）
                 Init(rClient);
+
+                /// 触发连接就绪事件
+                await _Impl.OnReady(this);
             }
             catch(Exception e)
             {

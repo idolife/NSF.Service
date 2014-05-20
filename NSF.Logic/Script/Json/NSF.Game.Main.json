@@ -7,11 +7,11 @@
     "NSF.Share.dll",
     "NSF.Framework.dll",
     "NSF.Interface.dll",
-    "Newtonsoft.Json.dll",
+    "Newtonsoft.Json.dll"
   ],
   "Param" : {
     "TcpService" : [{"Port" : 9091, "Svc" : ["NSF.Agent.Mgr"]}],
     "RpcService" : [{"Port" : 8081, "Impl" : "NSF.Game.Logic"}],
-    "DbmService" : [],
-  },
+    "DbmService" : []
+  }
 }
