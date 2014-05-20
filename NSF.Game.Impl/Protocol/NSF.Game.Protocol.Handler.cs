@@ -42,6 +42,11 @@ namespace NSF.Game.Logic
         }
 
         /// <summary>
+        /// 身份ID。
+        /// </summary>
+        public Int64 UUID { get { return _UUID; } }
+
+        /// <summary>
         /// 处理连接就绪。
         /// </summary>
         public Task OnReady(IClientSvc cli)
@@ -87,12 +92,13 @@ namespace NSF.Game.Logic
         /// <summary>
         /// 处理消息协议。
         /// </summary>
-        protected Task OnMessage(GameReq req)
+        protected async Task OnMessage(GameReq req)
         {
             Log.Debug("[Agent][ProtocolHandler][OnMessage], [Json:{0}].", req.Json);
 
             /// 反序列化Json消息
             JsonHeader jsonHead = JsonConvert.DeserializeObject<JsonHeader>(req.Json);
+            await _Logic.HandleMessage(jsonHead.Id, jsonHead.Msg);
         }
     }
 }

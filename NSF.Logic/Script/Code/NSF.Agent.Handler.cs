@@ -125,5 +125,7 @@ namespace NSF.Game.Logic
                 return ((IPEndPoint)Peer_.Client.RemoteEndPoint).Address.ToString(); 
             } 
         }
+
+        public Int64 UUID { get { return _Impl.UUID; } }
     }
 }

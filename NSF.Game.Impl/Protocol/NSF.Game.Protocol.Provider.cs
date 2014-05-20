@@ -12,7 +12,22 @@ namespace NSF.Game.Logic
     /// </summary>
     public static class ProtocollProvide
     {
+        /// <summary>
+        /// 最大数据包长度。
+        /// </summary>
         public static Int32 MAX_PACKAGE_SIZE = 1024 * 8;
+        /// <summary>
+        /// 超过这个最小数据体长度才会实行GZIP压缩。
+        /// </summary>
+        public static Int32 MIN_GZIP_DATA_SIZE = 1024;
+        /// <summary>
+        /// 数据包选项：使用GZIP压缩。
+        /// </summary>
+        public static UInt32 PACKAGE_USE_GZIP = 0x80000000;
+        /// <summary>
+        /// 数据包选项：使用动态加密。
+        /// </summary>
+        public static UInt32 PACKAGE_USE_CYPT = 0x40000000;
 
         /// <summary>
         /// 协议解包。
@@ -30,6 +45,9 @@ namespace NSF.Game.Logic
             Int32 msgHeadSign = BitConverter.ToInt32(dataBuff, dataOffset);
             /// 低位4字节为完整包的长度
             Int32 msgFullLength = msgHeadSign & 0x0000FFFF;
+            /// 非法数据包
+            if (msgFullLength > MAX_PACKAGE_SIZE)
+                throw new InvalidDataException("DecodeMessage");
             /// 不足完整包长度             
             if (dataLength < msgFullLength)
                 return null;
@@ -72,8 +90,8 @@ namespace NSF.Game.Logic
             hdWriter.Write((Int32)msBody.Position + INT32SIZE);
 
             /// 返回打包后的缓存
-            return new 
-                ArraySegment<byte>(msgFullBuff, 0, (Int32)msBody.Position + INT32SIZE);
+            return new
+                ArraySegment<Byte>(msgFullBuff, 0, (Int32)msBody.Position + INT32SIZE);
         }
     }
 }

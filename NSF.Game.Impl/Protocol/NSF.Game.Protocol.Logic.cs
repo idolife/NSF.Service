@@ -15,11 +15,6 @@ namespace NSF.Game.Logic
             UNKOWN = 1,///初始状态
             READY = 2, ///已经验证
         }
-        class ClientSvc
-        {
-            public ClientState NeedState;
-            public Func<Object, Task> HandleSvc;
-        }
 
         /// <summary>
         /// 当前状态。
@@ -32,7 +27,7 @@ namespace NSF.Game.Logic
         /// <summary>
         /// 消息服务表。
         /// </summary>
-        Dictionary<Int32, ClientSvc> _SvcDic = new Dictionary<Int32, ClientSvc>();
+        Dictionary<Int32, Func<Object, Task>> _SvcDic = new Dictionary<Int32, Func<Object, Task>>();
 
         public ProtocolLogic(IClientSvc client)
         {
@@ -42,26 +37,19 @@ namespace NSF.Game.Logic
             _Client = client;
 
             /// 创建服务逻辑表格
-            _SvcDic.Add(ProtocolCommand.MSG_LOGIN_REQ, new ClientSvc { NeedState = ClientState.UNKOWN, HandleSvc = HandleLoginReq });
+            _SvcDic.Add(ProtocolCommand.MSG_LOGIN_REQ, HandleLoginReq);
         }
 
         public async Task HandleMessage(Int32 msgId, Object jsonMsg)
         {
             if (!_SvcDic.ContainsKey(msgId))
             {
-                Log.Error("[Agent][HandleMessage], [MID:{0}], Not svc register for this message.")
-                return;
-            }
-
-            ClientSvc mSvc = _SvcDic[msgId];
-            if (_State != mSvc.NeedState)
-            {
-                Log.Error("[Agent][HandleMessage], [MID:{0}], Not match state for svc.")
+                Log.Error("[Agent][HandleMessage],  [{0}], [MID:{0}], Not svc register for this message.", _Client.UUID, msgId);
                 return;
             }
 
             /// 调用实际处理
-            await mSvc.HandleSvc(jsonMsg);
+            await _SvcDic[msgId](jsonMsg);
         }
 
         private async Task SendMessage(Int32 msgId, Object jsonRaw)
@@ -80,9 +68,18 @@ namespace NSF.Game.Logic
         public async Task HandleLoginReq(Object jsonRaw)
         {
             JsonLoginReq jsonReq = jsonRaw as JsonLoginReq;
-            Log.Debug("[Agent][HandleLoginReq], [{0}|{1}].", jsonReq.UserId, jsonReq.Token);
+            Log.Debug("[Agent][HandleLoginReq], [{0}], [{1}|{2}].", _Client.UUID, jsonReq.UserId, jsonReq.Token);
 
-            _State = ClientState.READY;
+            do
+            {
+                /// 如果已经通过验证则无需处理
+                if (_State != ClientState.UNKOWN)
+                    break;
+
+                /// TODO：进行验证（UID+TOKEN, 唯一登录）
+                _State = ClientState.READY;
+
+            } while (false);
 
             JsonLoginAck jsonAck = new JsonLoginAck { Status = 1, Session = jsonReq.Token };
             await SendMessage(ProtocolCommand.MSG_LOGIN_ACK, jsonAck);

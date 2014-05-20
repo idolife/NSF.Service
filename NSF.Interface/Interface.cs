@@ -48,6 +48,10 @@ namespace NSF.Interface
     public interface IClientImpl
     {
         /// <summary>
+        /// 身份ID。
+        /// </summary>
+        Int64 UUID { get; }
+        /// <summary>
         /// 连接就绪事件。
         /// </summary>
         Task OnReady(IClientSvc cli);
@@ -68,6 +72,10 @@ namespace NSF.Interface
     /// </summary>
     public interface IClientSvc
     {
+        /// <summary>
+        /// 身份ID。
+        /// </summary>
+        UInt64 UUID { get; }
         /// <summary>
         /// 远端IP地址。
         /// </summary>
