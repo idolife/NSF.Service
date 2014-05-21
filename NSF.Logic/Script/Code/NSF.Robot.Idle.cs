@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using NSF.Share;
@@ -17,6 +18,24 @@ namespace NSF.Robot.Idle
 {
     public class RobotIdle : TcpHandler, IClientSvc, IClientImpl, IScript
     {
+        /// <summary>
+        /// 机器人对象身份ID产生种子。
+        /// </summary>
+        static Int64 UUID_SEED = 1000000;
+        /// <summary>
+        /// 本机器人对象身份ID。
+        /// </summary>
+        Int64 _UUID;
+
+
+        /// <summary>
+        /// 默认构造函数。
+        /// </summary>
+        public RobotIdle()
+        {
+            _UUID = Interlocked.Increment(ref UUID_SEED);
+        }
+
         public async Task ExecuteAsync(Object rtmParam, Object confParam)
         {
             Log.Debug("[Script][RobotIdle][Execute], Param={0}.", confParam);
@@ -41,36 +60,45 @@ namespace NSF.Robot.Idle
         ///--------------------------------------------------------------
         /// IClientSvc接口实现
         /// <summary>
-        /// 
+        /// 本机器人了身份ID。
         /// </summary>
-        public long UUID
+        public Int64 UUID
         {
-            get { throw new NotImplementedException(); }
+            get { return _UUID; }
         }
 
+        /// <summary>
+        /// 本机器人的远端地址。
+        /// </summary>
         public string RemoteIP
         {
-            get { throw new NotImplementedException(); }
+            get { return Peer_.Client.RemoteEndPoint.ToString(); }
         }
 
-        public Task SendData(byte[] buff, int offset, int length)
+        /// <summary>
+        /// 外发数据包。
+        /// </summary>
+        public async Task SendData(byte[] buff, int offset, int length)
         {
-            throw new NotImplementedException();
+            await Peer_.GetStream().WriteAsync(buff, offset, length);
+            Log.Debug("[Script][RobotIdle][SendData], [{0, 8}|{1, 5}], Data sended.", _UUID, length - offset);
         }
 
         public void Close()
         {
-            throw new NotImplementedException();
+            Peer_.Close();
+            Log.Debug("[Script][RobotIdle][Close], [{0, 8}], Finished close.", _UUID);
         }
         ///--------------------------------------------------------------
 
         ///--------------------------------------------------------------
         /// IClientImpl接口实现
         /// <summary>
-        /// 机器人连接就像处理。
+        /// 机器人连接就绪处理。
         /// </summary>
         public Task OnReady(IClientSvc cli)
         {
+            Log.Debug("[Script][RobotIdle][OnReady], [{0, 8}], Robot ready.", _UUID);
             throw new NotImplementedException();
         }
 
@@ -85,7 +113,6 @@ namespace NSF.Robot.Idle
         /// <summary>
         /// 机器人连接异常（断开连接）
         /// </summary>
-        /// <returns></returns>
         public Task OnException()
         {
             throw new NotImplementedException();
