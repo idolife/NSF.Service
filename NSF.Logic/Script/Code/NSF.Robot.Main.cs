@@ -53,7 +53,8 @@ namespace NSF.Robot.Main
         private void HandleRobotReady(TcpClient client, String param)
         {
             Log.Debug("[Script][RobotManager][HandleRobotReady], [{0}:{1}].", client.Client.RemoteEndPoint, param);
-            /// TODO:（Lauch robot script and associate blabla）
+            /// 载入机器人逻辑处理脚本
+            MgrScript.Instance.ExecuteAsync(param, client).Wait();
         }
     }
 }

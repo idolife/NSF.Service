@@ -73,6 +73,7 @@
     <Compile Include="Script\Code\NSF.Logger.DB.cs" />
     <Compile Include="Script\Code\NSF.Logger.File.cs" />
     <Compile Include="Script\Code\NSF.Logger.Main.cs" />
+    <Compile Include="Script\Code\NSF.Robot.Idle.cs" />
     <Compile Include="Script\Code\NSF.Robot.Main.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +86,7 @@
     <None Include="Script\Json\NSF.Logger.File.json" />
     <None Include="Script\Json\NSF.Logger.Main.json" />
     <None Include="Script\Json\NSF.Agent.Handler.json" />
+    <None Include="Script\Json\NSF.Robot.Idle.json" />
     <None Include="Script\Json\NSF.Robot.Main.json" />
   </ItemGroup>
   <ItemGroup>

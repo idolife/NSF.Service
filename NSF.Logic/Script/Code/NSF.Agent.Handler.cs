@@ -16,7 +16,7 @@ namespace NSF.Game.Logic
     /// <summary>
     /// AgentHandler对象。
     /// </summary>
-    public class AgentHandler : TcpHandler, IScript, IClientSvc
+    public class AgentHandler : TcpHandler, IClientSvc, IScript
     {
         /// <summary>
         ///  协议实现对象。
