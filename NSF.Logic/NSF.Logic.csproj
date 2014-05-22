@@ -98,6 +98,10 @@
       <Project>{341a10b6-43ed-4c0e-9f5e-fff6ee8cff4f}</Project>
       <Name>NSF.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NSF.Game.Impl\NSF.Game.Logic.csproj">
+      <Project>{0390e4da-9c3b-4d6f-bef3-a58a6a31ccfe}</Project>
+      <Name>NSF.Game.Logic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NSF.Interface\NSF.Interface.csproj">
       <Project>{d0cd99e6-5407-463a-ac92-552558b328f5}</Project>
       <Name>NSF.Interface</Name>

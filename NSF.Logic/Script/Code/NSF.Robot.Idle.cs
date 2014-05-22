@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NSF.Share;
 using NSF.Core;
@@ -13,11 +14,21 @@ using NSF.Interface;
 using NSF.Framework.Base;
 using NSF.Framework.Svc;
 using NSF.Framework.Rpc;
+using NSF.Game.Logic;
 
 namespace NSF.Robot.Idle
 {
     public class RobotIdle : TcpHandler, IClientSvc, IClientImpl, IScript
     {
+        /// <summary>
+        /// 机器人状态
+        /// </summary>
+        enum RobotState
+        {
+            UNKOWN = 0,
+            CERTIFIED = 1,
+        }
+
         /// <summary>
         /// 机器人对象身份ID产生种子。
         /// </summary>
@@ -26,13 +37,18 @@ namespace NSF.Robot.Idle
         /// 本机器人对象身份ID。
         /// </summary>
         Int64 _UUID;
-
+        /// <summary>
+        /// 机器人状态。
+        /// </summary>
+        RobotState _State;
 
         /// <summary>
         /// 默认构造函数。
         /// </summary>
         public RobotIdle()
         {
+            /// 初始化成员
+            _State = RobotState.UNKOWN;
             _UUID = Interlocked.Increment(ref UUID_SEED);
         }
 
@@ -96,18 +112,40 @@ namespace NSF.Robot.Idle
         /// <summary>
         /// 机器人连接就绪处理。
         /// </summary>
-        public Task OnReady(IClientSvc cli)
+        public async Task OnReady(IClientSvc cli)
         {
             Log.Debug("[Script][RobotIdle][OnReady], [{0, 8}], Robot ready.", _UUID);
-            throw new NotImplementedException();
+
+            /// 发送登录请求
+            JsonLoginReq jsonReq = new JsonLoginReq
+            {
+                UserId = _UUID.ToString(),
+                Token = "",
+            };
+            await SendMessage(ProtocolCommand.MSG_LOGIN_REQ, jsonReq);
         }
 
         /// <summary>
         /// 机器人连接数据包到达。
         /// </summary>
-        public Task OnData(IDataBlock chunk)
+        public async Task OnData(IDataBlock chunk)
         {
-            throw new NotImplementedException();
+            /// 循环处理这个数据包的所有消息
+            while (true)
+            {
+                /// 解包
+                GameReq req = ProtocollProvide.DecodeMessage(chunk);
+                /// 数据包不完整
+                if (req == null)
+                    break;
+
+                /// 处理协议消息
+                Log.Debug("[Script][RobotIdle][OnData], [{0, 8}][Json:{1}].", _UUID, req.Json);
+
+                /// 反序列化Json消息
+                JsonHeader jsonHead = JsonConvert.DeserializeObject<JsonHeader>(req.Json);
+                await HandleMessage(jsonHead.Id, jsonHead.Msg);
+            }
         }
 
         /// <summary>
@@ -115,8 +153,51 @@ namespace NSF.Robot.Idle
         /// </summary>
         public Task OnException()
         {
-            throw new NotImplementedException();
+            Log.Debug("[Script][RobotIdle][OnException], [{0, 8}].", _UUID);
+            /// 重置登录状态
+            _State = RobotState.UNKOWN;
+
+            ///
+            return Task.FromResult(0);
         }
         ///--------------------------------------------------------------
+        ///
+        private async Task SendMessage(Int32 msgId, Object jsonRaw)
+        {
+            /// 装配完整消息
+            JsonHeader jsonFull = new JsonHeader
+            {
+                Id = msgId,
+                Msg = jsonRaw,
+            };
+            /// 打包完整消息
+            ArraySegment<Byte> msgFull = ProtocollProvide.EncodeMessage(jsonFull);
+            await SendData(msgFull.Array, msgFull.Offset, msgFull.Count);
+        }
+
+        /// <summary>
+        /// 处理消息协议。
+        /// </summary>
+        protected Task HandleMessage(Int32 msgId, Object jsonWild)
+        {
+            Log.Debug("[Script][RobotIdle][HandleMessage], [{0, 8}], [{1}|{2}].", _UUID, msgId, jsonWild);
+            if (msgId == ProtocolCommand.MSG_LOGIN_ACK)
+            {
+                JsonLoginAck jsonAck = jsonWild as JsonLoginAck;
+                Log.Debug("[Script][RobotIdle][LoginAck], [{0, 8}], [{1}|{2}].", _UUID, jsonAck.Status, jsonAck.Session);
+                if (jsonAck.Status == JsonLoginAck.LOGIN_OK)
+                {
+                    _State = RobotState.CERTIFIED;
+                    Log.Debug("[Script][RobotIdle][LoginAck], [{0, 8}], Ceritfy passed.", _UUID);
+                }
+                else
+                {
+                    Log.Debug("[Script][RobotIdle][LoginAck], [{0, 8}], Ceritfy failed.", _UUID);
+                }
+            }
+
+            ///
+            return Task.FromResult(0);
+        }
     }
 }

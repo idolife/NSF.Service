@@ -5,6 +5,7 @@
     "System.Core.dll",
     "NSF.Core.dll",
     "NSF.Share.dll",
+    "NSF.Game.Logic",
     "NSF.Framework.dll",
     "NSF.Interface.dll",
     "Newtonsoft.Json.dll"

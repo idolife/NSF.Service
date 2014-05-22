@@ -20,6 +20,7 @@ namespace NSF.Game.Logic
 
     public class JsonLoginAck
     {
+        public static Int32 LOGIN_OK = 1;
         public Int32 Status;
         public String Session;
     }
