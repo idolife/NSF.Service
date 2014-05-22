@@ -19,7 +19,7 @@ namespace NSF.Logger.File
         /// </summary>
         public Task ExecuteAsync(Object rtmParam, Object confParam)
         {
-            Log.Debug("[Script][LoggerFile][Execute], Param={0}.", confParam);
+            Log.Debug("[LoggerFile][Execute], Param={0}.", confParam);
 
             try
             {
@@ -28,7 +28,7 @@ namespace NSF.Logger.File
             }
             catch(Exception e)
             {
-                Log.Error("[Script][LoggerFile][Execute], {0}.", e);
+                Log.Error("[LoggerFile][Execute], {0}.", e);
             }
 
             ///
@@ -60,7 +60,7 @@ namespace NSF.Logger.File
             }
             catch(Exception e)
             {
-                Log.Error("[Script][LoggerFile][Proc], {0}.", e);
+                Log.Error("[LoggerFile][Proc], {0}.", e);
             }
 
             ///

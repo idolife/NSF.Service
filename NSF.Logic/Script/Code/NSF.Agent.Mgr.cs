@@ -30,7 +30,7 @@ namespace NSF.Game.Logic
         /// </summary>
         public Task ExecuteAsync(Object tcpSvc, Object confParam)
         {
-            Log.Debug("[Script][AgentMgr][Execute], Param={0}.", confParam);
+            Log.Debug("[AgentMgr][Execute], Param={0}.", confParam);
 
             try
             {
@@ -49,7 +49,7 @@ namespace NSF.Game.Logic
             }
             catch(Exception e)
             {
-                Log.Error("[Script][Game][Execute], {0}.", e);
+                Log.Error("[Game][Execute], {0}.", e);
             }
 
             ///

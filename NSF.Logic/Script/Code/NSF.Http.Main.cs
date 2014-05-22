@@ -24,7 +24,7 @@ namespace NSF.Http.Main
         /// </summary>
         public async Task ExecuteAsync(Object ___, Object confParam)
         {
-            Log.Debug("[Script][Master][Execute], Param={0}.", confParam);
+            Log.Debug("[Master][Execute], Param={0}.", confParam);
             //class JParam
             //{
             //    public List<String> Prefixes;
@@ -57,7 +57,7 @@ namespace NSF.Http.Main
             }
             catch(Exception e)
             {
-                Log.Error("[Script][Master][Execute], {0}.", e);
+                Log.Error("[Master][Execute], {0}.", e);
             }
         }
     }

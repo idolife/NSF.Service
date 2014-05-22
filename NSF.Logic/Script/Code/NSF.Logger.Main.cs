@@ -24,7 +24,7 @@ namespace NSF.Logger.Main
         /// </summary>
         public async Task ExecuteAsync(Object ___, Object confParam)
         {
-            Log.Debug("[Script][LoggerServer][Execute], Param={0}.", confParam);
+            Log.Debug("[LoggerServer][Execute], Param={0}.", confParam);
 
             try
             {
@@ -43,7 +43,7 @@ namespace NSF.Logger.Main
             }
             catch(Exception e)
             {
-                Log.Error("[Script][LoggerServer][Execute], {0}.", e);
+                Log.Error("[LoggerServer][Execute], {0}.", e);
             }
         }
 

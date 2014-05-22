@@ -28,7 +28,7 @@ namespace NSF.Game.Logic
         /// </summary>
         public async Task ExecuteAsync(Object rtmParam, Object cnfParam)
         {
-            Log.Debug("[Script][AgentHandler][Execute], Param={0}.", cnfParam);
+            Log.Debug("[AgentHandler][Execute], Param={0}.", cnfParam);
 
             try
             {
@@ -72,7 +72,7 @@ namespace NSF.Game.Logic
             }
             catch(Exception e)
             {
-                Log.Error("[Script][AgentHandler][Execute], {0}.", e);
+                Log.Error("[AgentHandler][Execute], {0}.", e);
             }
         }
 
@@ -81,7 +81,7 @@ namespace NSF.Game.Logic
         /// </summary>
         protected override async Task OnData(DataBlock chunk)
         {
-            Log.Debug("[Script][AgentHandler][OnData], Length = {0}.", chunk.Length);
+            Log.Debug("[AgentHandler][OnData], Length = {0}.", chunk.Length);
 
             /// 调用拆包/处理包逻辑
             await _Impl.OnData(chunk);
@@ -93,7 +93,7 @@ namespace NSF.Game.Logic
         /// </summary>
         protected override async Task OnException(Exception e)
         {
-            Log.Debug("[Script][AgentHandler][OnException], Exception : {0}.", e);
+            Log.Debug("[AgentHandler][OnException], Exception : {0}.", e);
             /// 触发事件
             await _Impl.OnException();
         }
@@ -103,7 +103,7 @@ namespace NSF.Game.Logic
         /// </summary>
         public async Task SendData(Byte[] buff, Int32 offset, Int32 length)
         {
-            Log.Debug("[Script][AgentHandler][SendData], [LEN:{0}], Send buff. ", length);
+            Log.Debug("[AgentHandler][SendData], [LEN:{0}], Send buff. ", length);
             await Peer_.GetStream().WriteAsync(buff, offset, length);
         }
 
@@ -112,7 +112,7 @@ namespace NSF.Game.Logic
         /// </summary>
         public void Close()
         {
-            Log.Debug("[Script][AgentHandler][SendData], Positive close.");
+            Log.Debug("[AgentHandler][SendData], Positive close.");
             Peer_.Close();
         }
 

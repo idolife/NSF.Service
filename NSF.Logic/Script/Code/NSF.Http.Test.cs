@@ -22,7 +22,7 @@ namespace NSF.Http.Test
         /// </summary>
         public Task ExecuteAsync(Object rtmParam, Object confParam)
         {
-            Log.Debug("[Script][Test][Execute], Param={0}.", confParam);
+            Log.Debug("[Test][Execute], Param={0}.", confParam);
 
             try
             {
@@ -34,7 +34,7 @@ namespace NSF.Http.Test
             }
             catch(Exception e)
             {
-                Log.Error("[Script][Master][Execute], {0}.", e);
+                Log.Error("[Master][Execute], {0}.", e);
             }
 
             ///
@@ -47,7 +47,7 @@ namespace NSF.Http.Test
         /// </summary>
         private async Task Svc(HttpListenerResponse resp, String qData)
         {
-            Log.Debug("[Script][Test][Execute], Q.Data={0}.", qData);
+            Log.Debug("[Test][Execute], Q.Data={0}.", qData);
             /// 故意不关闭RESPONE对象
             resp.KeepAlive = true;            
             byte[] data = System.Text.Encoding.UTF8.GetBytes("Hello World");

@@ -18,7 +18,7 @@ namespace NSF.Robot.Main
     {
         public Task ExecuteAsync(Object ___, Object confParam)
         {
-            Log.Debug("[Script][RobotManager][Execute], Param={0}.", confParam);
+            Log.Debug("[RobotManager][Execute], Param={0}.", confParam);
             try
             {
                 ///
@@ -40,7 +40,7 @@ namespace NSF.Robot.Main
             }
             catch (Exception e)
             {
-                Log.Error("[Script][RobotManager][Execute], {0}.", e);
+                Log.Error("[RobotManager][Execute], {0}.", e);
             }
 
             ///
@@ -52,7 +52,7 @@ namespace NSF.Robot.Main
         /// </summary>
         private void HandleRobotReady(TcpClient client, String param)
         {
-            Log.Debug("[Script][RobotManager][HandleRobotReady], [{0}:{1}].", client.Client.RemoteEndPoint, param);
+            Log.Debug("[RobotManager][HandleRobotReady], [{0}:{1}].", client.Client.RemoteEndPoint, param);
             /// 载入机器人逻辑处理脚本
             MgrScript.Instance.ExecuteAsync(param, client).Wait();
         }

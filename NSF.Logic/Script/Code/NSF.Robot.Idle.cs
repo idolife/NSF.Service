@@ -54,7 +54,7 @@ namespace NSF.Robot.Idle
 
         public async Task ExecuteAsync(Object rtmParam, Object confParam)
         {
-            Log.Debug("[Script][RobotIdle][Execute], Param={0}.", confParam);
+            Log.Debug("[RobotIdle][Execute], Param={0}.", confParam);
             try
             {
                 ///
@@ -69,7 +69,7 @@ namespace NSF.Robot.Idle
             }
             catch (Exception e)
             {
-                Log.Error("[Script][RobotIdle][Execute], {0}.", e);
+                Log.Error("[RobotIdle][Execute], {0}.", e);
             }
         }
 
@@ -97,13 +97,13 @@ namespace NSF.Robot.Idle
         public async Task SendData(byte[] buff, int offset, int length)
         {
             await Peer_.GetStream().WriteAsync(buff, offset, length);
-            Log.Debug("[Script][RobotIdle][SendData], [{0, 8}|{1, 5}], Data sended.", _UUID, length - offset);
+            Log.Debug("[RobotIdle][SendData], [{0, 8}|{1, 5}], Data sended.", _UUID, length - offset);
         }
 
         public void Close()
         {
             Peer_.Close();
-            Log.Debug("[Script][RobotIdle][Close], [{0, 8}], Finished close.", _UUID);
+            Log.Debug("[RobotIdle][Close], [{0, 8}], Finished close.", _UUID);
         }
         ///--------------------------------------------------------------
 
@@ -114,7 +114,7 @@ namespace NSF.Robot.Idle
         /// </summary>
         public async Task OnReady(IClientSvc cli)
         {
-            Log.Debug("[Script][RobotIdle][OnReady], [{0, 8}], Robot ready.", _UUID);
+            Log.Debug("[RobotIdle][OnReady], [{0, 8}], Robot ready.", _UUID);
 
             /// 发送登录请求
             JsonLoginReq jsonReq = new JsonLoginReq
@@ -140,7 +140,7 @@ namespace NSF.Robot.Idle
                     break;
 
                 /// 处理协议消息
-                Log.Debug("[Script][RobotIdle][OnData], [{0, 8}][Json:{1}].", _UUID, req.Json);
+                Log.Debug("[RobotIdle][OnData], [{0, 8}][Json:{1}].", _UUID, req.Json);
 
                 /// 反序列化Json消息
                 JsonHeader jsonHead = JsonConvert.DeserializeObject<JsonHeader>(req.Json);
@@ -153,7 +153,7 @@ namespace NSF.Robot.Idle
         /// </summary>
         public Task OnException()
         {
-            Log.Debug("[Script][RobotIdle][OnException], [{0, 8}].", _UUID);
+            Log.Debug("[RobotIdle][OnException], [{0, 8}].", _UUID);
             /// 重置登录状态
             _State = RobotState.UNKOWN;
 
@@ -180,19 +180,19 @@ namespace NSF.Robot.Idle
         /// </summary>
         protected Task HandleMessage(Int32 msgId, Object jsonWild)
         {
-            Log.Debug("[Script][RobotIdle][HandleMessage], [{0, 8}], [{1}|{2}].", _UUID, msgId, jsonWild);
+            Log.Debug("[RobotIdle][HandleMessage], [{0, 8}], [{1}|{2}].", _UUID, msgId, jsonWild);
             if (msgId == ProtocolCommand.MSG_LOGIN_ACK)
             {
                 JsonLoginAck jsonAck = jsonWild as JsonLoginAck;
-                Log.Debug("[Script][RobotIdle][LoginAck], [{0, 8}], [{1}|{2}].", _UUID, jsonAck.Status, jsonAck.Session);
+                Log.Debug("[RobotIdle][LoginAck], [{0, 8}], [{1}|{2}].", _UUID, jsonAck.Status, jsonAck.Session);
                 if (jsonAck.Status == JsonLoginAck.LOGIN_OK)
                 {
                     _State = RobotState.CERTIFIED;
-                    Log.Debug("[Script][RobotIdle][LoginAck], [{0, 8}], Ceritfy passed.", _UUID);
+                    Log.Debug("[RobotIdle][LoginAck], [{0, 8}], Ceritfy passed.", _UUID);
                 }
                 else
                 {
-                    Log.Debug("[Script][RobotIdle][LoginAck], [{0, 8}], Ceritfy failed.", _UUID);
+                    Log.Debug("[RobotIdle][LoginAck], [{0, 8}], Ceritfy failed.", _UUID);
                 }
             }
 

@@ -41,7 +41,7 @@ namespace NSF.Logger.DB
         /// </summary>
         public Task ExecuteAsync(Object rtmParam, Object confParam)
         {
-            Log.Debug("[Script][LoggerDB][Execute], Param={0}.", confParam);
+            Log.Debug("[LoggerDB][Execute], Param={0}.", confParam);
 
             try
             {
@@ -58,7 +58,7 @@ namespace NSF.Logger.DB
             }
             catch(Exception e)
             {
-                Log.Error("[Script][LoggerDB][Execute], {0}.", e);
+                Log.Error("[LoggerDB][Execute], {0}.", e);
             }
 
             ///
@@ -79,7 +79,7 @@ namespace NSF.Logger.DB
             }
             catch(Exception e)
             {
-                Log.Error("[Script][LoggerDB][Proc], {0}.", e);
+                Log.Error("[LoggerDB][Proc], {0}.", e);
             }
 
             ///
@@ -103,7 +103,7 @@ namespace NSF.Logger.DB
                     String[] logParts = logChunk.Split('`');                    
                     if (logParts.Length < 4)
                     {
-                        Log.Debug("[Script][LoggerDB][Rcd], Hack log message.", logChunk);
+                        Log.Debug("[LoggerDB][Rcd], Hack log message.", logChunk);
                         continue;
                     }
                     if (logParts.Length > 4)
@@ -123,7 +123,7 @@ namespace NSF.Logger.DB
                 }
                 catch(Exception e)
                 {
-                    Log.Debug("[Script][LoggerDB][Rcd], {0}.", e);
+                    Log.Debug("[LoggerDB][Rcd], {0}.", e);
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace NSF.Logger.DB
             }
             catch (Exception e)
             {
-                Log.Debug("[Script][LoggerDB][Rcd], {0}.", e);
+                Log.Debug("[LoggerDB][Rcd], {0}.", e);
                 _MySqlConnection = null;
                 _MySqlCommand = null;
                 return false;
@@ -174,11 +174,11 @@ namespace NSF.Logger.DB
                 _MySqlCommand.Parameters.AddWithValue("@msg", Encoding.UTF8.GetBytes(logMsg));
                 await _MySqlCommand.ExecuteNonQueryAsync();
 
-                Log.Info("[Script][LoggerDB][Rcd] --- {0, 8}|{1}|{2, 5}\n  {3}", logModule, logDate, logLevel, logMsg);
+                Log.Info("[LoggerDB][Rcd] --- {0, 8}|{1}|{2, 5}\n  {3}", logModule, logDate, logLevel, logMsg);
             }
             catch (Exception e)
             {
-                Log.Debug("[Script][LoggerDB][Rcd], {0}.", e);
+                Log.Debug("[LoggerDB][Rcd], {0}.", e);
             }
         }
     }

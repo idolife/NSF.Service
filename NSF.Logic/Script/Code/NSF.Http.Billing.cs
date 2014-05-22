@@ -22,7 +22,7 @@ namespace NSF.Http.Billing
         /// </summary>
         public Task ExecuteAsync(Object rtmParam, Object confParam)
         {
-            Log.Debug("[Script][Billing][Execute], Param={0}.", confParam);
+            Log.Debug("[Billing][Execute], Param={0}.", confParam);
 
             try
             {
@@ -34,7 +34,7 @@ namespace NSF.Http.Billing
             }
             catch(Exception e)
             {
-                Log.Error("[Script][Master][Execute], {0}.", e);
+                Log.Error("[Master][Execute], {0}.", e);
             }
 
             ///
