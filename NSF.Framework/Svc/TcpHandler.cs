@@ -27,14 +27,13 @@ namespace NSF.Framework.Svc
         /// </summary>
         public TcpHandler(TcpClient client)
         {
+            Log.Debug("[TcpHandler][Ctor], Begin.");
             /// 保存底层SOCKET对象
             Peer_ = client;
 
             /// 发起第一个读请求
-            DataBlock chunk = new DataBlock(READ_BUFFER_SIZE);
-            Task<Int32> readTask = 
-                Peer_.GetStream().ReadAsync(chunk.Buffer, chunk.WritePosition, chunk.Space);
-            Put(readTask, chunk, OnRead);
+            PostRead();
+            Log.Debug("[TcpHandler][Ctor], End.");
         }
 
         /// <summary>
@@ -47,6 +46,8 @@ namespace NSF.Framework.Svc
         /// </summary>
         public void Init(TcpClient client)
         {
+            Log.Debug("[TcpHandler][Init], Begin.");
+
             /// 保存底层SOCKET对象
             Peer_ = client;
 
@@ -55,6 +56,28 @@ namespace NSF.Framework.Svc
             Task<Int32> readTask =
                 Peer_.GetStream().ReadAsync(chunk.Buffer, chunk.WritePosition, chunk.Space);
             Put(readTask, chunk, OnRead);
+
+
+            Log.Debug("[TcpHandler][Init], End.");
+        }
+
+        protected Task PostRead(DataBlock chunk = null)
+        {
+            Log.Debug("[TcpHandler][PostRead], Begin.");
+
+            /// 准备数据缓存对象
+            if (chunk == null)
+                chunk = new DataBlock(READ_BUFFER_SIZE);
+            else
+                chunk.Crunch();
+
+            /// 计划读任务
+            Task<Int32> readTask =
+                Peer_.GetStream().ReadAsync(chunk.Buffer, chunk.WritePosition, chunk.Space);
+            Put(readTask, chunk, OnRead);
+            ///
+            Log.Debug("[TcpHandler][PostRead], End.");
+            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -62,6 +85,8 @@ namespace NSF.Framework.Svc
         /// </summary>
         protected Task OnRead(Task finishTask, Object finishData)
         {
+            Log.Debug("[TcpHandler][OnRead], Begin.");
+
             DataBlock chunk = finishData as DataBlock;
             /// 使用异常促使底层循环退出
             Task<Int32> recvTask = finishTask as Task<Int32>;
@@ -79,7 +104,8 @@ namespace NSF.Framework.Svc
             Put(procTask, chunk, OnFinish);
 
             /// 什么也不要做
-            return null;
+            Log.Debug("[TcpHandler][OnRead], End.");
+            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -87,6 +113,9 @@ namespace NSF.Framework.Svc
         /// </summary>
         protected virtual Task OnData(DataBlock chunk)
         {
+            Log.Debug("[TcpHandler][OnData], Begin.");
+
+            Log.Debug("[TcpHandler][OnData], End.");
             return
                 Task.FromResult(0);
         }
@@ -96,17 +125,16 @@ namespace NSF.Framework.Svc
         /// </summary>
         protected Task OnFinish(Task finishTask, Object finishData)
         {
+            Log.Debug("[TcpHandler][OnFinish], Begin.");
+
             /// 还原
             DataBlock chunk = finishData as DataBlock;
-
-            ///  发起下一个读请求
-            chunk.Crunch();
-            Task<Int32> readTask =
-                Peer_.GetStream().ReadAsync(chunk.Buffer, chunk.WritePosition, chunk.Space);
-            Put(readTask, chunk, OnRead);
+            /// 发起下一个读请求            
+            var ___ = PostRead(chunk);
+            Log.Debug("[TcpHandler][OnFinish], End.");
 
             ///
-            return null;
+            return ___;
         }
 
         ////

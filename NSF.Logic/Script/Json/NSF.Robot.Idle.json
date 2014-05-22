@@ -3,12 +3,13 @@
   "Reference": [
   	"System.dll",
     "System.Core.dll",
+    "Protobuf-Net.dll",
+    "Newtonsoft.Json.dll",
     "NSF.Core.dll",
     "NSF.Share.dll",
-    "NSF.Game.Logic",
     "NSF.Framework.dll",
     "NSF.Interface.dll",
-    "Newtonsoft.Json.dll"
+    "NSF.Game.Logic.dll"
   ],
   "Param" : {}
 }

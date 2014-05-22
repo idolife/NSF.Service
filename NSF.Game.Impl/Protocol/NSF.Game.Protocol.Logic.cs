@@ -42,6 +42,7 @@ namespace NSF.Game.Logic
 
         public async Task HandleMessage(Int32 msgId, Object jsonMsg)
         {
+            Log.Debug("[Agent][HandleMessage],  [{0}], [{1}|{2}].", _Client.UUID, msgId, jsonMsg);
             if (!_SvcDic.ContainsKey(msgId))
             {
                 Log.Error("[Agent][HandleMessage],  [{0}], [MID:{0}], Not svc register for this message.", _Client.UUID, msgId);
@@ -81,7 +82,7 @@ namespace NSF.Game.Logic
 
             } while (false);
 
-            JsonLoginAck jsonAck = new JsonLoginAck { Status = 1, Session = jsonReq.Token };
+            JsonLoginAck jsonAck = new JsonLoginAck { Status = JsonLoginAck.LOGIN_OK, Session = jsonReq.Token };
             await SendMessage(ProtocolCommand.MSG_LOGIN_ACK, jsonAck);
         }
     }

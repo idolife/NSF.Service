@@ -51,7 +51,7 @@ namespace NSF.Game.Logic
         /// </summary>
         public Task OnReady(IClientSvc cli)
         {
-            Log.Debug("[Agent][ProtocolHandler][OnReady], [UUID:{0, 8}, Remote:{1}]", _UUID, cli.RemoteIP);
+            Log.Debug("[Agent][ProtocolHandler][OnReady], [UUID:{0}, Remote:{1}]", _UUID, cli.RemoteIP);
             /// 保存关联的连接
             _Client = cli;
             /// 创建逻辑处理对象
@@ -85,7 +85,8 @@ namespace NSF.Game.Logic
         public Task OnException()
         {
             ///
-            Log.Debug("[Agent][ProtocolHandler][OnException], [UUID:{0, 8}, Remote:{1}]", _UUID, _Client.RemoteIP);
+            Log.Debug("[Agent][ProtocolHandler][OnException], [UUID:{0}, Remote:{1}]", _UUID, _Client.RemoteIP);
+            _Client.Close();
             ///
             return Task.FromResult(0);
         }

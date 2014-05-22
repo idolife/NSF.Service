@@ -4,6 +4,6 @@
     <StartArguments>NSF.Logger.Main</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <StartArguments>NSF.Robot.Main</StartArguments>
+    <StartArguments>NSF.Game.Main</StartArguments>
   </PropertyGroup>
 </Project>

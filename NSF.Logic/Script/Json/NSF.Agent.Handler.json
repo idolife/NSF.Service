@@ -4,12 +4,13 @@
   	"System.dll",
     "System.Core.dll",
     "System.Net.dll",
+    "Protobuf-Net.dll",    
+    "Newtonsoft.Json.dll",
     "NSF.Core.dll",
     "NSF.Share.dll",
     "NSF.Framework.dll",
     "NSF.Interface.dll",
-    "NSF.Game.Logic.dll",
-    "Newtonsoft.Json.dll"
+    "NSF.Game.Logic.dll"
   ],
   "Param" : { 
     "ReadBufferSize" : 4096,
