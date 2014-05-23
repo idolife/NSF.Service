@@ -15,7 +15,7 @@ namespace NSF.Game.Logic
         enum ClientState
         {
             UNKOWN = 1,///初始状态
-            READY = 2, ///已经验证
+            CERTIFIED = 2, ///已经验证
         }
 
         /// <summary>
@@ -80,12 +80,14 @@ namespace NSF.Game.Logic
                     break;
 
                 /// TODO：进行验证（UID+TOKEN, 唯一登录）
-                _State = ClientState.READY;
+                _State = ClientState.CERTIFIED;
+                Log.Debug("[Agent][HandleLoginReq], [{0}], [{1}], Certified done.", _Client.UUID, jsonReq.UserId);
 
             } while (false);
 
             JsonLoginAck jsonAck = new JsonLoginAck { Status = JsonLoginAck.LOGIN_OK, Session = jsonReq.Token };
             await SendMessage(ProtocolCommand.MSG_LOGIN_ACK, jsonAck);
+            Log.Debug("[Agent][HandleLoginReq], [{0}], [{1}], Login ack sended.", _Client.UUID, jsonReq.UserId);
         }
     }
 }
