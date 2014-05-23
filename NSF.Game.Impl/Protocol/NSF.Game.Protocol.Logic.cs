@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NSF.Share;
 using NSF.Interface;
 
@@ -27,7 +29,7 @@ namespace NSF.Game.Logic
         /// <summary>
         /// 消息服务表。
         /// </summary>
-        Dictionary<Int32, Func<Object, Task>> _SvcDic = new Dictionary<Int32, Func<Object, Task>>();
+        Dictionary<Int32, Func<JObject, Task>> _SvcDic = new Dictionary<Int32, Func<JObject, Task>>();
 
         public ProtocolLogic(IClientSvc client)
         {
@@ -40,7 +42,7 @@ namespace NSF.Game.Logic
             _SvcDic.Add(ProtocolCommand.MSG_LOGIN_REQ, HandleLoginReq);
         }
 
-        public async Task HandleMessage(Int32 msgId, Object jsonMsg)
+        public async Task HandleMessage(Int32 msgId, JObject jsonMsg)
         {
             Log.Debug("[Agent][HandleMessage],  [{0}], [{1}|{2}].", _Client.UUID, msgId, jsonMsg);
             if (!_SvcDic.ContainsKey(msgId))
@@ -53,22 +55,22 @@ namespace NSF.Game.Logic
             await _SvcDic[msgId](jsonMsg);
         }
 
-        private async Task SendMessage(Int32 msgId, Object jsonRaw)
+        private async Task SendMessage(Int32 msgId, Object jsonWild)
         {
             /// 装配完整消息
             JsonHeader jsonFull = new JsonHeader
             {
                 Id = msgId,
-                Msg = jsonRaw,
+                Msg = jsonWild,
             };
             /// 打包完整消息
             ArraySegment<Byte> msgFull = ProtocollProvide.EncodeMessage(jsonFull);
             await _Client.SendData(msgFull.Array, msgFull.Offset, msgFull.Count);
         }
 
-        public async Task HandleLoginReq(Object jsonRaw)
+        public async Task HandleLoginReq(JObject jsonWild)
         {
-            JsonLoginReq jsonReq = jsonRaw as JsonLoginReq;
+            JsonLoginReq jsonReq = jsonWild.ToObject<JsonLoginReq>();
             Log.Debug("[Agent][HandleLoginReq], [{0}], [{1}|{2}].", _Client.UUID, jsonReq.UserId, jsonReq.Token);
 
             do

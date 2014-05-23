@@ -86,25 +86,34 @@ namespace NSF.Framework.Svc
         protected Task OnRead(Task finishTask, Object finishData)
         {
             Log.Debug("[TcpHandler][OnRead], Begin.");
+            Exception raiseException = null;
+            
+            /// 
+            do
+            {
+                DataBlock chunk = finishData as DataBlock;
+                /// 使用异常促使底层循环退出
+                Task<Int32> recvTask = finishTask as Task<Int32>;
+                /// 完成接收任务
+                Int32 recvLen = recvTask.Result;
+                if (recvLen == 0)
+                    raiseException = new SocketException();
 
-            DataBlock chunk = finishData as DataBlock;
-            /// 使用异常促使底层循环退出
-            Task<Int32> recvTask = finishTask as Task<Int32>;
-            /// 完成接收任务
-            Int32 recvLen = recvTask.Result;
-            if (recvLen == 0)
-                throw new SocketException();
+                /// 更新接收缓存
+                chunk.WriteOffset(recvLen);
+                Log.Debug("[TcpHandler][OnRead], Recv data = {0}.", recvLen);
 
-            /// 更新接收缓存
-            chunk.WriteOffset(recvLen);
-            Log.Debug("[TcpHandler][OnRead], Recv data = {0}.", recvLen);
-
-            /// 创建逻辑处理任务
-            Task procTask = OnData(chunk);
-            Put(procTask, chunk, OnFinish);
+                /// 创建逻辑处理任务
+                Task procTask = OnData(chunk);
+                Put(procTask, chunk, OnFinish);
+            }
+            while (false);
 
             /// 什么也不要做
             Log.Debug("[TcpHandler][OnRead], End.");
+            /// 保存异常或者返回一个已经完成的任务
+            if (raiseException != null)
+                throw raiseException;
             return Task.FromResult(0);
         }
 

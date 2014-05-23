@@ -148,9 +148,6 @@ namespace NSF.Robot.Idle
             }
         }
 
-        /// <summary>
-        /// 机器人连接异常（断开连接）
-        /// </summary>
         public Task OnException()
         {
             Log.Debug("[RobotIdle][OnException], [{0}].", _UUID);
@@ -160,15 +157,25 @@ namespace NSF.Robot.Idle
             ///
             return Task.FromResult(0);
         }
+
+        /// <summary>
+        /// 机器人连接异常（断开连接）
+        /// </summary>
+        protected override Task OnException(Exception e)
+        {
+            Log.Debug("[RobotIdle][OnException], [{0}], {1}.", _UUID, e);
+            ///
+            return OnException();
+        }
         ///--------------------------------------------------------------
         ///
-        private async Task SendMessage(Int32 msgId, Object jsonRaw)
+        private async Task SendMessage(Int32 msgId, Object jsonWild)
         {
             /// 装配完整消息
             JsonHeader jsonFull = new JsonHeader
             {
                 Id = msgId,
-                Msg = jsonRaw,
+                Msg = jsonWild,
             };
             /// 打包完整消息
             ArraySegment<Byte> msgFull = ProtocollProvide.EncodeMessage(jsonFull);

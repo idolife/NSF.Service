@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NSF.Core;
 using NSF.Share;
 using NSF.Interface;
@@ -100,7 +101,7 @@ namespace NSF.Game.Logic
 
             /// 反序列化Json消息
             JsonHeader jsonHead = JsonConvert.DeserializeObject<JsonHeader>(req.Json);
-            await _Logic.HandleMessage(jsonHead.Id, jsonHead.Msg);
+            await _Logic.HandleMessage(jsonHead.Id, jsonHead.Msg as JObject);
         }
     }
 }
