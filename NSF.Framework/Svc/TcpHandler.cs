@@ -122,9 +122,7 @@ namespace NSF.Framework.Svc
         /// </summary>
         protected virtual Task OnData(DataBlock chunk)
         {
-            Log.Debug("[TcpHandler][OnData], Begin.");
-
-            Log.Debug("[TcpHandler][OnData], End.");
+            Log.Warn("[TcpHandler][OnData], Should not be called.");
             return
                 Task.FromResult(0);
         }

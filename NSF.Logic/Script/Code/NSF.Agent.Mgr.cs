@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -6,6 +7,7 @@ using NSF.Share;
 using NSF.Core;
 using NSF.Interface;
 using NSF.Framework.Svc;
+using System.Diagnostics;
 
 namespace NSF.Game.Logic
 {
@@ -14,6 +16,11 @@ namespace NSF.Game.Logic
     /// </summary>
     public class MgrAgent : IScript, IModule
     {
+        /// <summary>
+        /// 所有的客户端对象。
+        /// </summary>
+        ConcurrentDictionary<Int64, IClientSvc> _ClientRepo = new ConcurrentDictionary<Int64, IClientSvc>();
+
         /// <summary>
         /// 本模块名称。
         /// </summary>
@@ -49,7 +56,7 @@ namespace NSF.Game.Logic
             }
             catch(Exception e)
             {
-                Log.Error("[Game][Execute], {0}.", e);
+                Log.Error("[AgentMgr][Execute], {0}.", e);
             }
 
             ///
@@ -64,6 +71,38 @@ namespace NSF.Game.Logic
         {
             /// 创建连接处理器对象
             MgrScript.Instance.ExecuteAsync(HandlerScript, client).Wait();
+        }
+
+        /// <summary>
+        /// 模块支持的命令。
+        /// </summary>
+        public bool Command(String cmd, Object param)
+        {
+            Log.Debug("[AgentMgr][Command], [{0}].", cmd);
+            bool retVal = false;
+            switch(cmd.ToUpper())
+            {
+                /// 加入“客户端连接”管理
+                case "JOIN" :
+                    IClientSvc joinCli = param as IClientSvc;
+                    Debug.Assert(joinCli != null);
+                    retVal = _ClientRepo.TryAdd(joinCli.UUID, joinCli);
+                    Log.Info("[AgentMgr][Join], [{0}|{1}].", joinCli.UUID, retVal);
+                    break;
+                /// 离开“客户端连接”管理
+                case "LEAVE" :
+                    Int64 uuid = (param as IClientSvc).UUID;
+                    IClientSvc levCli;
+                    retVal = _ClientRepo.TryRemove(uuid, out levCli);
+                    Log.Info("[AgentMgr][Join], [{0}|{1}].", uuid, retVal);
+                    break;
+                default :
+                    Log.Warn("[AgentMgr][Command], [{0}], Unkown support command.", cmd);
+                    break;
+            }
+
+            ////
+            return retVal;
         }
     }
 }

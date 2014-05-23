@@ -47,10 +47,17 @@ namespace NSF.Game.Logic
             Int32 msgFullLength = msgHeadSign & 0x0000FFFF;
             /// 非法数据包
             if (msgFullLength > MAX_PACKAGE_SIZE)
+            {
+                Log.Debug("[GameProtocolProvider][Decode], Failed for hack length.");
                 throw new InvalidDataException("DecodeMessage");
+            }
+                
             /// 不足完整包长度             
             if (dataLength < msgFullLength)
+            {
+                Log.Debug("[GameProtocolProvider][Decode], Failed for less data.");
                 return null;
+            }
 
             /// 包足够一个完整包
             dataLength -= INT32SIZE;
@@ -65,6 +72,7 @@ namespace NSF.Game.Logic
             /// 移动数据块读指针
             chunk.ReadOffset(msgFullLength);
 
+            Log.Debug("[GameProtocolProvider][Decode], {0}.", msgObj.Json);
             return msgObj;
         }
 
@@ -90,8 +98,10 @@ namespace NSF.Game.Logic
             hdWriter.Write((Int32)msBody.Position + INT32SIZE);
 
             /// 返回打包后的缓存
+            Int32 msgLen = (Int32)msBody.Position + INT32SIZE;
+            Log.Debug("[GameProtocolProvider][Encode], {0}.", msgLen);
             return new
-                ArraySegment<Byte>(msgFullBuff, 0, (Int32)msBody.Position + INT32SIZE);
+                ArraySegment<Byte>(msgFullBuff, 0, msgLen);
         }
     }
 }

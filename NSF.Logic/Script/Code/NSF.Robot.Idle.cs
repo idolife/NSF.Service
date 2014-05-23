@@ -32,7 +32,7 @@ namespace NSF.Robot.Idle
         /// <summary>
         /// 机器人对象身份ID产生种子。
         /// </summary>
-        static Int64 UUID_SEED = 1000000;
+        static Int64 UUID_SEED = 90000;
         /// <summary>
         /// 本机器人对象身份ID。
         /// </summary>
@@ -73,6 +73,30 @@ namespace NSF.Robot.Idle
             }
         }
 
+        /// <summary>
+        /// 处理数据包到达的逻辑。
+        /// </summary>
+        protected override async Task OnData(DataBlock chunk)
+        {
+            /// 调用拆包/处理包逻辑
+            await OnData(chunk);
+        }
+        ///--------------------------------------------------------------
+        /// TcpHandler虚函数重写
+        /// <summary>
+
+        
+        /// 机器人连接异常（断开连接）
+        /// </summary>
+        protected override Task OnException(Exception e)
+        {
+            Log.Info("[RobotIdle][OnException], [{0}], {1}.", _UUID, e);
+            ///
+            return OnException();
+        }
+        ///
+        ///--------------------------------------------------------------
+
         ///--------------------------------------------------------------
         /// IClientSvc接口实现
         /// <summary>
@@ -103,7 +127,7 @@ namespace NSF.Robot.Idle
         public void Close()
         {
             Peer_.Close();
-            Log.Debug("[RobotIdle][Close], [{0}], Finished close.", _UUID);
+            Log.Info("[RobotIdle][Close], [{0}], Robot done.", _UUID);
         }
         ///--------------------------------------------------------------
 
@@ -114,7 +138,7 @@ namespace NSF.Robot.Idle
         /// </summary>
         public async Task OnReady(IClientSvc cli)
         {
-            Log.Debug("[RobotIdle][OnReady], [{0}], Robot ready.", _UUID);
+            Log.Info("[RobotIdle][OnReady], [{0}], Robot ready.", _UUID);
 
             /// 发送登录请求
             JsonLoginReq jsonReq = new JsonLoginReq
@@ -144,7 +168,7 @@ namespace NSF.Robot.Idle
 
                 /// 反序列化Json消息
                 JsonHeader jsonHead = JsonConvert.DeserializeObject<JsonHeader>(req.Json);
-                await HandleMessage(jsonHead.Id, jsonHead.Msg);
+                await HandleMessage(jsonHead.Id, jsonHead.Msg as JObject);
             }
         }
 
@@ -158,15 +182,6 @@ namespace NSF.Robot.Idle
             return Task.FromResult(0);
         }
 
-        /// <summary>
-        /// 机器人连接异常（断开连接）
-        /// </summary>
-        protected override Task OnException(Exception e)
-        {
-            Log.Debug("[RobotIdle][OnException], [{0}], {1}.", _UUID, e);
-            ///
-            return OnException();
-        }
         ///--------------------------------------------------------------
         ///
         private async Task SendMessage(Int32 msgId, Object jsonWild)
@@ -185,24 +200,28 @@ namespace NSF.Robot.Idle
         /// <summary>
         /// 处理消息协议。
         /// </summary>
-        protected Task HandleMessage(Int32 msgId, Object jsonWild)
+        protected Task HandleMessage(Int32 msgId, JObject jsonWild)
         {
             Log.Debug("[RobotIdle][HandleMessage], [{0}], [{1}|{2}].", _UUID, msgId, jsonWild);
-            if (msgId == ProtocolCommand.MSG_LOGIN_ACK)
+            switch(msgId)
             {
-                JsonLoginAck jsonAck = jsonWild as JsonLoginAck;
-                Log.Debug("[RobotIdle][LoginAck], [{0}], [{1}|{2}].", _UUID, jsonAck.Status, jsonAck.Session);
-                if (jsonAck.Status == JsonLoginAck.LOGIN_OK)
-                {
-                    _State = RobotState.CERTIFIED;
-                    Log.Debug("[RobotIdle][LoginAck], [{0}], Ceritfy passed.", _UUID);
-                }
-                else
-                {
-                    Log.Debug("[RobotIdle][LoginAck], [{0}], Ceritfy failed.", _UUID);
-                }
+                case ProtocolCommand.MSG_LOGIN_ACK:
+                    JsonLoginAck jsonAck = jsonWild.ToObject<JsonLoginAck>();
+                    Log.Debug("[RobotIdle][LoginAck], [{0}], [{1}|{2}].", _UUID, jsonAck.Status, jsonAck.Session);
+                    if (jsonAck.Status == JsonLoginAck.LOGIN_OK)
+                    {
+                        _State = RobotState.CERTIFIED;
+                        Log.Info("[RobotIdle][LoginAck], [{0}], Ceritfy passed.", _UUID);
+                    }
+                    else
+                    {
+                        Log.Error("[RobotIdle][LoginAck], [{0}], Ceritfy failed.", _UUID);
+                    }
+                    break;
+                default:
+                    Log.Warn("[RobotIdle][HandleMessage], [{0}], {1} = Unkown message.", _UUID, msgId);
+                    break;
             }
-
             ///
             return Task.FromResult(0);
         }

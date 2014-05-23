@@ -26,6 +26,7 @@ namespace NSF.Interface
     public  interface IModule
     {
         String Name { get; }
+        bool Command(String cmd, Object target);
     }
 
     public interface IDataBlock

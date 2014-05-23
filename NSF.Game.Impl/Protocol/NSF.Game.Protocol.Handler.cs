@@ -57,7 +57,7 @@ namespace NSF.Game.Logic
             _Client = cli;
             /// 创建逻辑处理对象
             _Logic = new ProtocolLogic(_Client);
-            ///
+            
             return Task.FromResult(0);
         }
 

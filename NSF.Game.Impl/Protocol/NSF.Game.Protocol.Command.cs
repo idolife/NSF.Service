@@ -8,7 +8,7 @@ namespace NSF.Game.Logic
 {
     public static class ProtocolCommand
     {
-        public static Int32 MSG_LOGIN_REQ = 1001;
-        public static Int32 MSG_LOGIN_ACK = 1002;
+        public const Int32 MSG_LOGIN_REQ = 1001;
+        public const Int32 MSG_LOGIN_ACK = 1002;
     }
 }

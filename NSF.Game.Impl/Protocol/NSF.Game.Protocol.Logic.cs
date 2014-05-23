@@ -18,6 +18,11 @@ namespace NSF.Game.Logic
             CERTIFIED = 2, ///已经验证
         }
 
+        enum ClientCont
+        {
+            CERTIFY_TIMEOUT = 5000,///认证超时（5秒）
+        }
+
         /// <summary>
         /// 当前状态。
         /// </summary>
@@ -37,6 +42,7 @@ namespace NSF.Game.Logic
             _State = ClientState.UNKOWN;
             /// 绑定底层连接
             _Client = client;
+            /// 创建一个认证超时任务
 
             /// 创建服务逻辑表格
             _SvcDic.Add(ProtocolCommand.MSG_LOGIN_REQ, HandleLoginReq);
@@ -81,7 +87,7 @@ namespace NSF.Game.Logic
 
                 /// TODO：进行验证（UID+TOKEN, 唯一登录）
                 _State = ClientState.CERTIFIED;
-                Log.Debug("[Agent][HandleLoginReq], [{0}], [{1}], Certified done.", _Client.UUID, jsonReq.UserId);
+                Log.Info("[Agent][HandleLoginReq], [{0}], [{1}], Certified done.", _Client.UUID, jsonReq.UserId);
 
             } while (false);
 
