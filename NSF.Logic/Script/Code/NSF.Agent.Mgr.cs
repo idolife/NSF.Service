@@ -87,14 +87,14 @@ namespace NSF.Game.Logic
                     IClientSvc joinCli = param as IClientSvc;
                     Debug.Assert(joinCli != null);
                     retVal = _ClientRepo.TryAdd(joinCli.UUID, joinCli);
-                    Log.Info("[AgentMgr][Join], [{0}|{1}].", joinCli.UUID, retVal);
+                    Log.Info("[AgentMgr][Join], [{0, 8}|{1, 4}] = [{2, 5}].", joinCli.UUID, retVal, _ClientRepo.Count);
                     break;
                 /// 离开“客户端连接”管理
                 case "LEAVE" :
                     Int64 uuid = (param as IClientSvc).UUID;
                     IClientSvc levCli;
                     retVal = _ClientRepo.TryRemove(uuid, out levCli);
-                    Log.Info("[AgentMgr][Join], [{0}|{1}].", uuid, retVal);
+                    Log.Info("[AgentMgr][Leav], [{0, 8}|{1, 4}] = [{2, 5}].", uuid, retVal, _ClientRepo.Count);
                     break;
                 default :
                     Log.Warn("[AgentMgr][Command], [{0}], Unkown support command.", cmd);
