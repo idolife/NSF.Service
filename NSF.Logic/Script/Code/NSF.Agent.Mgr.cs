@@ -97,7 +97,7 @@ namespace NSF.Game.Logic
                     Log.Info("[AgentMgr][Leav], [{0, 8}|{1, 4}] = [{2, 5}].", uuid, retVal, _ClientRepo.Count);
                     break;
                 default :
-                    Log.Warn("[AgentMgr][Command], [{0}], Unkown support command.", cmd);
+                    Log.Warn("[AgentMgr][Command], [{0}], Unsupport command.", cmd);
                     break;
             }
 
